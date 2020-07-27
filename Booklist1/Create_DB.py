@@ -7,14 +7,19 @@ import sqlite3
 def create_table():
   conn=sqlite3.connect("book.db")
   cur=conn.cursor()
-  cur.execute("CREATE TABLE IF NOT EXISTS book (item Text,language TEXT,deadline INTEGER)")
+  sql = '''CREATE TABLE IF NOT EXISTS apps
+             (item TEXT,
+              language TEXT,
+              book_type TEXT,
+              deadline INTEGER)'''
+  cur.execute(sql)
   conn.commit()
   conn.close()
 
-def insert(item,language,deadline):
+def insert(item,language,book_type,deadline):
   conn=sqlite3.connect("book.db")
   cur=conn.cursor()
-  cur.execute("INSERT INTO book VALUES(?,?,?)",(item,language,deadline))
+  cur.execute('INSERT INTO apps VALUES (?,?,?,?)',(item,language,book_type,deadline))
   conn.commit()
   conn.close()
 
@@ -22,24 +27,25 @@ def insert(item,language,deadline):
 def view():
   conn=sqlite3.connect("book.db")
   cur=conn.cursor()
-  cur.execute("SELECT * FROM book")
-  rows=conn.fetchall()
+  cur.execute("SELECT * FROM apps")
+  rows=cur.fetchall()
   conn.close()
   return rows
 
 def delete(item):
   conn=sqlite3.connect("book.db")
   cur=conn.cursor()
-  cur.execute("DELETE FROM book WHERE item=?",(item,))
+  cur.execute("DELETE FROM apps WHERE item=?",(item,))
   conn.commit()
   conn.close()
 
-def update(language,deadline,item):
+def update(language,deadline,book_type,item):
   conn=sqlite3.connect("book.db")
   cur=conn.cursor()
-  cur.execute("UPDATE book SET language=?,deadline=? WHERE item=?,(language,deadline,item))
+  cur.execute("UPDATE apps SET language=?,deadline=?,book_type=? WHERE item=?,(language,deadline,book_type,item))
   conn.commit()
   conn.close()
-  
-# insert("In Search For Lost Time","English",12)
-# print(view()) 
+
+# insert("流动的盛宴","Chinese","novel",9)
+
+# print(view())
