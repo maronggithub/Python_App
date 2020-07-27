@@ -1,3 +1,15 @@
+"""
+A program that instore the informaiton of the books which you plane to read this year
+Title, Language, Type, Deadline
+
+User can:
+View all the records of the books
+Search an entry
+Add entry
+Update entry
+Delete
+Close
+"""
 from tkinter import *
 from backend import Database
 
@@ -23,55 +35,56 @@ def view_command():
 
 def search_command():
     list1.delete(0,END)
-    for row in database.search(title_text.get(),author_text.get(),year_text.get(),isbn_text.get()):
+    for row in database.search(title_text.get(),language_text.get(),book_type_text.get(),deadline_text.get()):
         list1.insert(END,row)
 
 def add_command():
-    database.insert(title_text.get(),author_text.get(),year_text.get(),isbn_text.get())
+    database.insert(title_text.get(),language_text.get(),book_type_text.get(),deadline_text.get())
     list1.delete(0,END)
-    list1.insert(END,(title_text.get(),author_text.get(),year_text.get(),isbn_text.get()))
+    list1.insert(END,(title_text.get(),language_text.get(),book_type_text.get(),deadline_text.get()))
 
 def delete_command():
     database.delete(selected_tuple[0])
 
 def update_command():
-    database.update(selected_tuple[0],title_text.get(),author_text.get(),year_text.get(),isbn_text.get())
+    database.update(selected_tuple[0],title_text.get(),language_text.get(),book_type_text.get(),deadline_text.get())
 
 window=Tk()
 
-window.wm_title("BookStore")
-
+window.wm_title("Books Plane To Read")
+#create the labels about information of the database
 l1=Label(window,text="Title")
 l1.grid(row=0,column=0)
 
-l2=Label(window,text="Author")
+l2=Label(window,text="Language")
 l2.grid(row=0,column=2)
 
-l3=Label(window,text="Year")
+l3=Label(window,text="Type")
 l3.grid(row=1,column=0)
 
-l4=Label(window,text="ISBN")
+l4=Label(window,text="Deadline")
 l4.grid(row=1,column=2)
-
+# Create the entry place where you can entry the information of the books
 title_text=StringVar()
 e1=Entry(window,textvariable=title_text)
 e1.grid(row=0,column=1)
 
-author_text=StringVar()
-e2=Entry(window,textvariable=author_text)
+language_text=StringVar()
+e2=Entry(window,textvariable=language_text)
 e2.grid(row=0,column=3)
 
-year_text=StringVar()
-e3=Entry(window,textvariable=year_text)
+book_type_text=StringVar()
+e3=Entry(window,textvariable=book_type_text)
 e3.grid(row=1,column=1)
 
-isbn_text=StringVar()
-e4=Entry(window,textvariable=isbn_text)
+deadline_text=StringVar()
+e4=Entry(window,textvariable=deadline_text)
 e4.grid(row=1,column=3)
 
 list1=Listbox(window, height=6,width=35)
 list1.grid(row=2,column=0,rowspan=6,columnspan=2)
 
+#Create teh scrollbar
 sb1=Scrollbar(window)
 sb1.grid(row=2,column=2,rowspan=6)
 
@@ -80,6 +93,7 @@ sb1.configure(command=list1.yview)
 
 list1.bind('<<ListboxSelect>>',get_selected_row)
 
+#Create four function button
 b1=Button(window,text="View all", width=12,command=view_command)
 b1.grid(row=2,column=3)
 

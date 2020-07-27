@@ -5,29 +5,29 @@ class Database:
     def __init__(self, db):
         self.conn=sqlite3.connect(db)
         self.cur=self.conn.cursor()
-        self.cur.execute("CREATE TABLE IF NOT EXISTS book (id INTEGER PRIMARY KEY, title text, author text, year integer, isbn integer)")
+        self.cur.execute("CREATE TABLE IF NOT EXISTS booklist (id INTEGER PRIMARY KEY, title text, language text, book_type integer, deadline integer)")
         self.conn.commit()
 
-    def insert(self,title,author,year,isbn):
-        self.cur.execute("INSERT INTO book VALUES (NULL,?,?,?,?)",(title,author,year,isbn))
+    def insert(self,title,language,book_type,deadline):
+        self.cur.execute("INSERT INTO booklist VALUES (NULL,?,?,?,?)",(title,language,book_type,deadline))
         self.conn.commit()
 
     def view(self):
-        self.cur.execute("SELECT * FROM book")
+        self.cur.execute("SELECT * FROM booklist")
         rows=self.cur.fetchall()
         return rows
 
-    def search(self,title="",author="",year="",isbn=""):
-        self.cur.execute("SELECT * FROM book WHERE title=? OR author=? OR year=? OR isbn=?", (title,author,year,isbn))
+    def search(self,title="",language="",book_type="",deadline=""):
+        self.cur.execute("SELECT * FROM booklist WHERE title=? OR language=? OR book_type=? OR deadline=?", (title,language,book_type,deadline))
         rows=self.cur.fetchall()
         return rows
 
     def delete(self,id):
-        self.cur.execute("DELETE FROM book WHERE id=?",(id,))
+        self.cur.execute("DELETE FROM booklist WHERE id=?",(id,))
         self.conn.commit()
 
-    def update(self,id,title,author,year,isbn):
-        self.cur.execute("UPDATE book SET title=?, author=?, year=?, isbn=? WHERE id=?",(title,author,year,isbn,id))
+    def update(self,id,title,language,book_type,deadline):
+        self.cur.execute("UPDATE booklist SET title=?, language=?, book_type=?, deadline=? WHERE id=?",(title,language,book_type,deadline,id))
         self.conn.commit()
 
     def __del__(self):
@@ -37,4 +37,4 @@ class Database:
 #delete(3)
 #update(4,"The moon","John Smooth",1917,99999)
 #print(view())
-#print(search(author="John Smooth"))
+#print(search(language="John Smooth"))
