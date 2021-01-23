@@ -89,16 +89,16 @@ e4.grid(row=1,column=3)
 list1=Listbox(window, height=6,width=35)
 list1.grid(row=2,column=0,rowspan=6,columnspan=2)
 
-#Create teh scrollbar
+#创建滚动栏
 sb1=Scrollbar(window)
-sb1.grid(row=2,column=2,rowspan=6)
+sb1.grid(row=2,column=2,rowspan=12)
 
 list1.configure(yscrollcommand=sb1.set)
 sb1.configure(command=list1.yview)
 
 list1.bind('<<ListboxSelect>>',get_selected_row)
 
-#Create four function button
+#创建四个不同的按钮
 b1=Button(window,text="View all", width=12,command=view_command)
 b1.grid(row=2,column=3)
 

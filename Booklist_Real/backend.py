@@ -5,6 +5,7 @@ class Database:
     def __init__(self, db):
         self.conn=sqlite3.connect(db)
         self.cur=self.conn.cursor()
+        # 创作表:如果没有表则创建，有的话在本表的基础上操作
         self.cur.execute("CREATE TABLE IF NOT EXISTS booklist (id INTEGER PRIMARY KEY, title text, language text, book_type integer, deadline integer)")
         self.conn.commit()
 
